@@ -83,6 +83,17 @@
         #countdown.danger {
             color: #e74c3c;
         }
+        .payment-button-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;  /* 按钮和图片之间的间距 */
+        }
+        
+        .payment-icon {
+            width: 186px;
+            height: 186px;
+            object-fit: contain;
+        }
     </style>
 </head>
 <body>
@@ -137,7 +148,7 @@
 
                 <div class="card">
                     <div class="card-header">
-                        <h5>Send Payment</h5>
+                        <h5>Pay</h5>
                     </div>
                     <div class="card-body">
                         <form id="payment-form">
@@ -170,7 +181,10 @@
                                     Contains GST 15%
                                 </label>
                             </div>
-                            <button type="submit" class="btn btn-send" id="send-payment">Send Payment</button>
+                            <div class="payment-button-container">
+                                <button type="submit" class="btn btn-send" id="send-payment"> &nbsp;&nbsp;&nbsp;&nbsp;     Pay &nbsp;&nbsp;&nbsp;&nbsp;    </button>
+                                <img src="/static/order_789-1212773.png" alt="Payment Icon" class="payment-icon">
+                            </div>
                         </form>
                         <div class="countdown-timer mt-3 text-center">
                             <p class="mb-0">Payment session expires in: <span id="countdown">30:00</span></p>
@@ -466,7 +480,7 @@
             // Remove after 10 seconds
             setTimeout(() => {
                 statusDiv.remove();
-            }, 10000);
+            }, 100000);
         }
 
         // Token select change handler

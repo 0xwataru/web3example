@@ -1,6 +1,6 @@
-# KiwiPay - Gasless ERC20 Payment System
+# TahiPay - Gasless ERC20 Payment System
 
-KiwiPay is a subsidized payment system that allows users to send ERC20 tokens without paying for gas fees. The system uses the EIP-2612 permit standard along with a smart contract relayer to perform the transactions on behalf of the user.
+TahiPay is a subsidized payment system that allows users to send ERC20 tokens without paying for gas fees. The system uses the EIP-2612 permit standard along with a smart contract relayer to perform the transactions on behalf of the user.
 
 ## How It Works
 
@@ -33,9 +33,8 @@ KiwiPay is a subsidized payment system that allows users to send ERC20 tokens wi
 ## Supported Tokens
 
 Only ERC20 tokens that implement the EIP-2612 permit standard can be used with this system. Common examples include:
-- DAI
-- USDC
-- UNI
+- NNZDD (deploy by team)
+
 
 ## Prerequisites
 
@@ -50,8 +49,8 @@ Only ERC20 tokens that implement the EIP-2612 permit standard can be used with t
 
 1. Clone the repository:
 ```
-git clone https://github.com/yourusername/kiwipay.git
-cd kiwipay
+git clone git@github.com:Pharaoh-s-Wallet/PaymentRelayer.git
+cd PaymentRelayer
 ```
 
 2. Install required packages:
@@ -111,29 +110,6 @@ Submit a signed permit and execute a token transfer.
 }
 ```
 
-**Response**:
-```json
-{
-  "status": "success",
-  "tx_hash": "0x...",
-  "message": "Transaction submitted to blockchain"
-}
-```
-
-## Business Model
-
-The relayer contract includes a small fee mechanism to cover gas costs:
-
-1. **Fee Percentage**: Can be configured in the contract (default: 0.5%).
-2. **Fee Recipient**: The address that receives the fee (configurable).
-3. **Optional**: Fees can be toggled on/off per transaction.
-
-## Security Considerations
-
-- Protect the relayer's private key
-- Implement rate limiting on the API
-- Use secure HTTPS for all API requests
-- Verify signatures before submitting transactions
 
 ## License
 
