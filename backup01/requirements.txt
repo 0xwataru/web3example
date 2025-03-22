@@ -1,8 +1,0 @@
-flask
-web3
-eth-account
-python-dotenv
-gunicorn
-flask-cors
-cryptography
-requests

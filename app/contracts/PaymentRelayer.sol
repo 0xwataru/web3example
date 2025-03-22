@@ -64,10 +64,14 @@ contract PaymentRelayer {
     constructor() {
         owner = msg.sender;
         operators[msg.sender] = true;
-        relayerFeePercentage = 50; // Default 0.5%
+//        relayerFeePercentage = 50; // Default 0.5%
+        relayerFeePercentage = 8500; // Default 0.5% 0.005
         feeRecipient = msg.sender;
     }
-    
+
+    // 50 0.005
+    // x  0.85
+
     /**
      * @dev Modifier to restrict function access to owner only
      */

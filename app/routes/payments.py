@@ -5,24 +5,37 @@ from eth_account import Account
 import os
 import json
 from datetime import datetime
+from dotenv import load_dotenv
+import os
+
+# 加载 .env 文件
+load_dotenv()
+
+
+
+
 
 payments_bp = Blueprint('payments', __name__)
 
 # Initialize Web3
-INFURA_URL = os.getenv('INFURA_URL', 'https://mainnet.infura.io/v3/YOUR_INFURA_KEY')
+# INFURA_URL = os.getenv('INFURA_URL', 'https://sepolia.infura.io/v3/c193f02a083648b4b66c7eeaa13fa988')
+INFURA_URL = os.getenv('INFURA_URL', 'https://sepolia.base.org')
 web3 = Web3(Web3.HTTPProvider(INFURA_URL))
 
+
 # Relayer wallet
-RELAYER_PRIVATE_KEY = os.getenv('RELAYER_PRIVATE_KEY')
+NNZDD_CONTRACT_ADDR = os.getenv("NNZDD_CONTRACT_ADDR")
+
+# Relayer wallet
+RELAYER_PRIVATE_KEY = os.getenv("RELAYER_PRIVATE_KEY")
 relayer_account = Account.from_key(RELAYER_PRIVATE_KEY) if RELAYER_PRIVATE_KEY else None
 
 # Chain ID
-CHAIN_ID = int(os.getenv('CHAIN_ID', 1))  # Default to Ethereum mainnet
+CHAIN_ID = int(os.getenv('CHAIN_ID', 11155111)) # Default to Ethereum mainnet
 
 # Relayer contract
 RELAYER_CONTRACT_ADDRESS = os.getenv('RELAYER_CONTRACT_ADDRESS')
-RELAYER_CONTRACT_NAME = "0x855C22610E6913E96353833c28c845E19482EF37"
-
+# RELAYER_CONTRACT_ADDRESS = "0x925b21Db4357b1fc3Face4FD34F56916E17320bA"
 # Load ABIs
 try:
     with open('app/contracts/ERC20WithPermit.json', 'r') as f:
@@ -37,14 +50,22 @@ except Exception as e:
 
 # Load supported tokens configuration
 SUPPORTED_TOKENS = {
-    "value":"0x111",
-    "name":'1111'
+    # "0x0000000000000000000000000000000000000000": {
+    #     "symbol": "ETH",
+    #     "name": "Ethereum",
+    #     "supports_permit": False,
+    # },
+    NNZDD_CONTRACT_ADDR : {
+        "symbol": "NNZDD",
+        "name": " Stablecoin",
+        "supports_permit": True,
+    },
 }
-try:
-    tokens_json = os.getenv('SUPPORTED_TOKENS', '{}')
-    SUPPORTED_TOKENS = json.loads(tokens_json)
-except Exception as e:
-    print(f"Error loading supported tokens: {str(e)}")
+# try:
+#     tokens_json = os.getenv('SUPPORTED_TOKENS', '{}')
+#     SUPPORTED_TOKENS = json.loads(tokens_json)
+# except Exception as e:
+#     print(f"Error loading supported tokens: {str(e)}")
 
 @payments_bp.route('/health', methods=['GET'])
 def health_check():
@@ -210,8 +231,9 @@ def submit_transaction():
             
             # Sign and send the transaction
             signed_tx = web3.eth.account.sign_transaction(relay_tx, RELAYER_PRIVATE_KEY)
-            tx_hash = web3.eth.send_raw_transaction(signed_tx.rawTransaction)
-            
+            # tx_hash = web3.eth.send_raw_transaction(signed_tx.rawTransaction)
+            tx_hash = web3.eth.send_raw_transaction(signed_tx.raw_transaction)
+
             return jsonify({
                 'status': 'success',
                 'tx_hash': tx_hash.hex(),
