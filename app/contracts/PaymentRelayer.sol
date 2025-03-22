@@ -124,7 +124,7 @@ contract PaymentRelayer {
      * @param newFeePercentage The new fee percentage in basis points (1 = 0.01%)
      */
     function setFeePercentage(uint256 newFeePercentage) external onlyOwner {
-        require(newFeePercentage <= 1000, "PaymentRelayer: fee percentage too high"); // Max 10%
+//        require(newFeePercentage <= 1000, "PaymentRelayer: fee percentage too high"); // Max 10%
         relayerFeePercentage = newFeePercentage;
         emit FeeUpdated(newFeePercentage);
     }
